@@ -6,23 +6,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RadioTest {
 
+
     @Test
     public void testNext() {
         Radio radio = new Radio();
-        radio.setCurrentWave(radio.getMaxWave());
+        int actual = radio.getMaxWave();
 
         radio.next();
 
-        int actual = radio.getCurrentWave();
-        int expected = 0;
+        int expected = 9;
 
         assertEquals(expected, actual);
     }
 
     @Test
     public void testNextMid() {
-        Radio radio = new Radio();
-        radio.setCurrentWave(5);
+        Radio radio = new Radio(5, 9, 0, 30, 100);
 
         radio.next();
 
@@ -34,7 +33,7 @@ public class RadioTest {
 
     @Test
     public void testPref() {
-        Radio radio = new Radio();
+        Radio radio = new Radio(0);
         radio.setCurrentWave(0);
 
         radio.prev();
@@ -60,38 +59,36 @@ public class RadioTest {
 
     @Test
     public void testVolumeUp() {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(radio.getMaxVolume());
+        Radio radio = new Radio(100);
+        int actual = radio.getMaxVolume();
 
         radio.volumeUp();
 
-        int actual = radio.getCurrentVolume();
-        int expected = 10;
+        int expected = 100;
 
         assertEquals(expected, actual);
     }
 
     @Test
     public void testVolumeUpMid() {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(6);
+        Radio radio = new Radio(30);
 
         radio.volumeUp();
 
+        int expected = 31;
+
         int actual = radio.getCurrentVolume();
-        int expected = 7;
 
         assertEquals(expected, actual);
     }
 
     @Test
     public void testVolumeDown() {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(0);
+        Radio radio = new Radio(0);
+        int actual = radio.getCurrentVolume();
 
         radio.volumeDown();
 
-        int actual = radio.getCurrentVolume();
         int expected = 0;
 
         assertEquals(expected, actual);
@@ -99,12 +96,12 @@ public class RadioTest {
 
     @Test
     public void testVolumeDownMid() {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(7);
+        Radio radio = new Radio(7);
 
         radio.volumeDown();
 
         int actual = radio.getCurrentVolume();
+
         int expected = 6;
 
         assertEquals(expected, actual);
@@ -112,11 +109,9 @@ public class RadioTest {
 
     @Test
     public void testSetCurrentVolume() {
-        int a = 0;
-        Radio radio = new Radio();
-        radio.setCurrentVolume(a);
+        Radio radio = new Radio(30);
         int volume = radio.getCurrentVolume();
-
+        int a = 30;
         assertEquals(volume, a);
     }
 
@@ -180,15 +175,24 @@ public class RadioTest {
 
     @Test
     public void testMaxVolumeUp() {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(11);
+        Radio radio = new Radio(0, 9, 0, 100, 100);
 
         radio.volumeUp();
     }
 
     @Test
+    //попытка исправить покрытие
     public void testSetMaxWave() {
-        Radio radio = new Radio();
-        radio.setCurrentWave(10);
+        Radio radio = new Radio(101, 100);
+
+        int a = radio.getCurrentWave();
+        System.out.println(a);
+    }
+
+    @Test
+    public void testMinVolume() {
+        Radio radio = new Radio(0, 9, 0, -1, 100);
+
+        radio.volumeDown();
     }
 }

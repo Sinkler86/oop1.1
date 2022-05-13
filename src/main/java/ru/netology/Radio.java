@@ -1,68 +1,97 @@
 package ru.netology;
 
 public class Radio {
+    private int minWave = 0;
+    private int currentWave = 0;
+    private int maxWave = 9;
+    private int minVolume = 0;
+    private int currentVolume = 30;
+    private int maxVolume = 100;
 
-    private int currentWave;
-    private int currentVolume;
+    public Radio() {
+    }
+
+    public Radio(int currentWave, int maxWave) {
+        this.maxWave = maxWave;
+        this.currentWave = currentWave;
+    }
+
+    public Radio(int currentVolume) {
+        this.currentVolume = currentVolume;
+    }
+
+    public Radio(int currentWave, int maxWave, int minVolume, int currentVolume, int maxVolume) {
+        this.currentWave = currentWave;
+        this.maxWave = maxWave;
+        this.minVolume = minVolume;
+        this.currentVolume = currentVolume;
+        this.maxVolume = maxVolume;
+    }
+
+    public int getMinWave() {
+        return minWave;
+    }
 
     public int getCurrentWave() {
         return currentWave;
+    }
+
+    public int getMaxWave() {
+        return maxWave;
+    }
+
+    public int getMinVolume() {
+        return minVolume;
     }
 
     public int getCurrentVolume() {
         return currentVolume;
     }
 
-    public void setCurrentWave(int сurrentWave) {
-        if (сurrentWave < 0) {
-            return;
-        }
-        if (сurrentWave > getMaxWave()) {
-            return;
-        }
-        this.currentWave = сurrentWave;
-    }
-
-    public int getMaxWave() {
-        return 9;
-    }
-
-    public void setCurrentVolume(int сurrentVolume) {
-        if (сurrentVolume < 1) {
-            return;
-        }
-        if (сurrentVolume > getMaxVolume()) {
-            return;
-        }
-        this.currentVolume = сurrentVolume;
-    }
-
     public int getMaxVolume() {
-        return 10;
+        return maxVolume;
+    }
+
+    public void setCurrentWave(int currentWave) {
+        if (currentWave < getMinWave()) {
+            return;
+        }
+        if (currentWave > getMaxWave()) {
+            currentWave = getMaxWave();//попытка исправить покрытие... не ясно почему этот код не работает.
+        }
+        this.currentWave = currentWave;
     }
 
     public void next() {
         if (currentWave < getMaxWave()) {
             currentWave = currentWave + 1;
-        } else {currentWave = 0;}
+        } else {
+            currentWave = minWave;
+        }
     }
 
     public void prev() {
-        if (currentWave > 0) {
+        if (currentWave > getMinWave()) {
             currentWave = currentWave - 1;
-        } else {currentWave = getMaxWave();}
+        } else {
+            currentWave = getMaxWave();
+        }
     }
 
     public void volumeUp() {
         if (currentVolume < getMaxVolume()) {
             currentVolume = currentVolume + 1;
-        } else {currentVolume = getMaxVolume();}
+        } else {
+            currentVolume = getMaxVolume();
+        }
     }
 
     public void volumeDown() {
-        if (currentVolume > 0) {
+        if (currentVolume > getMinVolume()) {
             currentVolume = currentVolume - 1;
-        } else {currentVolume = 0;}
+        } else {
+            currentVolume = getMinVolume();
+        }
     }
 }
 
