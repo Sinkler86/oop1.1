@@ -6,24 +6,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RadioTest {
 
+
     @Test
     public void testNext() {
-        Radio radio = new Radio();
-        radio.setCurrentWave(radio.getMaxWave());
+        Radio radio = new Radio(10);
+        int actual = radio.getNumWave();
 
         radio.next();
 
-        int actual = radio.getCurrentWave();
-        int expected = 0;
+        int expected = 9;
 
         assertEquals(expected, actual);
     }
 
     @Test
     public void testNextMid() {
-        Radio radio = new Radio();
+        Radio radio = new Radio(9);
         radio.setCurrentWave(5);
-
         radio.next();
 
         int actual = radio.getCurrentWave();
@@ -40,7 +39,7 @@ public class RadioTest {
         radio.prev();
 
         int actual = radio.getCurrentWave();
-        int expected = radio.getMaxWave();
+        int expected = radio.getNumWave();
 
         assertEquals(expected, actual);
     }
@@ -61,12 +60,10 @@ public class RadioTest {
     @Test
     public void testVolumeUp() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(radio.getMaxVolume());
-
         radio.volumeUp();
-
         int actual = radio.getCurrentVolume();
-        int expected = 10;
+
+        int expected = 31;
 
         assertEquals(expected, actual);
     }
@@ -74,12 +71,12 @@ public class RadioTest {
     @Test
     public void testVolumeUpMid() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(6);
 
         radio.volumeUp();
 
+        int expected = 31;
+
         int actual = radio.getCurrentVolume();
-        int expected = 7;
 
         assertEquals(expected, actual);
     }
@@ -87,43 +84,18 @@ public class RadioTest {
     @Test
     public void testVolumeDown() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(0);
-
         radio.volumeDown();
-
         int actual = radio.getCurrentVolume();
-        int expected = 0;
+
+        int expected = 29;
 
         assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testVolumeDownMid() {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(7);
-
-        radio.volumeDown();
-
-        int actual = radio.getCurrentVolume();
-        int expected = 6;
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testSetCurrentVolume() {
-        int a = 0;
-        Radio radio = new Radio();
-        radio.setCurrentVolume(a);
-        int volume = radio.getCurrentVolume();
-
-        assertEquals(volume, a);
     }
 
     @Test
     public void testWaveUp() {
         Radio radio = new Radio();
-        radio.setCurrentWave(radio.getMaxWave());
+        radio.setCurrentWave(radio.getNumWave());
 
         radio.next();
 
@@ -154,7 +126,7 @@ public class RadioTest {
         radio.prev();
 
         int actual = radio.getCurrentWave();
-        int expected = radio.getMaxWave();
+        int expected = radio.getNumWave();
 
         assertEquals(expected, actual);
     }
@@ -179,16 +151,44 @@ public class RadioTest {
     }
 
     @Test
+    public void testSetOverCurrentWave() {
+        Radio radio = new Radio(5);
+        radio.setCurrentWave(6);
+    }
+
+    @Test
     public void testMaxVolumeUp() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(11);
-
+        radio.setCurrentVolume(100);
         radio.volumeUp();
+        int result = radio.getCurrentVolume();
+        System.out.println(result);
     }
 
     @Test
     public void testSetMaxWave() {
+        Radio radio = new Radio(5);
+        radio.next();
+        int a = radio.getCurrentWave();
+        System.out.println(a);
+    }
+
+    @Test
+    public void testMinVolume() {
         Radio radio = new Radio();
-        radio.setCurrentWave(10);
+        radio.setCurrentVolume(0);
+        radio.volumeDown();
+    }
+
+    @Test
+    public void testOverMinVolume() {
+        Radio radio = new Radio();
+        radio.setCurrentVolume(-1);
+    }
+
+    @Test
+    public void testOverMaxVolume() {
+        Radio radio = new Radio();
+        radio.setCurrentVolume(101);
     }
 }

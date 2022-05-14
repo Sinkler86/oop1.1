@@ -2,67 +2,100 @@ package ru.netology;
 
 public class Radio {
 
-    private int currentWave;
-    private int currentVolume;
+    private int minWave = 0;
+    private int currentWave = 0;
+    private int numOfWave = 9;
+    private int minVolume = 0;
+    private int currentVolume = 30;
+    private int maxVolume = 100;
+    private int newNumOfWave;
+
+
+    public Radio() {
+    }
+
+    public Radio(int newNumOfWave) {
+        if (newNumOfWave != 9) {
+            numOfWave = newNumOfWave - 1;
+        } else {
+            int numOfWave = this.numOfWave;
+        }
+    }
+
+    public int getMinWave() {
+        return minWave;
+    }
 
     public int getCurrentWave() {
         return currentWave;
+    }
+
+    public int getNumWave() {
+        return numOfWave;
+    }
+
+    public int getMinVolume() {
+        return minVolume;
     }
 
     public int getCurrentVolume() {
         return currentVolume;
     }
 
-    public void setCurrentWave(int сurrentWave) {
-        if (сurrentWave < 0) {
-            return;
-        }
-        if (сurrentWave > getMaxWave()) {
-            return;
-        }
-        this.currentWave = сurrentWave;
-    }
-
-    public int getMaxWave() {
-        return 9;
-    }
-
-    public void setCurrentVolume(int сurrentVolume) {
-        if (сurrentVolume < 1) {
-            return;
-        }
-        if (сurrentVolume > getMaxVolume()) {
-            return;
-        }
-        this.currentVolume = сurrentVolume;
-    }
-
     public int getMaxVolume() {
-        return 10;
+        return maxVolume;
+    }
+
+    public void setCurrentWave(int currentWave) {
+        if (currentWave < getMinWave()) {
+            return;
+        }
+        if (currentWave > getNumWave()) {
+            return;
+        }
+        this.currentWave = currentWave;
+    }
+
+    public void setCurrentVolume(int currentVolume) {
+        if (currentVolume < getMinVolume()) {
+            return;
+        }
+        if (currentVolume > getMaxVolume()) {
+            return;
+        }
+        this.currentVolume = currentVolume;
     }
 
     public void next() {
-        if (currentWave < getMaxWave()) {
+        if (currentWave < getNumWave()) {
             currentWave = currentWave + 1;
-        } else {currentWave = 0;}
+        } else {
+            currentWave = minWave;
+        }
     }
 
     public void prev() {
-        if (currentWave > 0) {
+        if (currentWave > getMinWave()) {
             currentWave = currentWave - 1;
-        } else {currentWave = getMaxWave();}
+        } else {
+            currentWave = getNumWave();
+        }
     }
 
     public void volumeUp() {
         if (currentVolume < getMaxVolume()) {
             currentVolume = currentVolume + 1;
-        } else {currentVolume = getMaxVolume();}
+        } else {
+            currentVolume = getMaxVolume();
+        }
     }
 
     public void volumeDown() {
-        if (currentVolume > 0) {
+        if (currentVolume > getMinVolume()) {
             currentVolume = currentVolume - 1;
-        } else {currentVolume = 0;}
+        } else {
+            currentVolume = getMinVolume();
+        }
     }
 }
 
